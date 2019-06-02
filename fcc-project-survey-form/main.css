@@ -1,0 +1,168 @@
+html {
+  margin: 0;
+  padding: 0;
+  font-family: arial narrow;
+  background-color: rgb(1, 145, 218);
+  color: white;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: rgb(1, 145, 218);
+  margin-top: 0;
+  display: grid;
+  grid-template-columns: 400px auto;
+  padding: 10px;
+  border-bottom: 2px gray solid;
+  width: 100%;
+  min-width: 550px;
+  position: fixed;
+}
+
+#header-logo {
+  height: 50px;
+  width: auto;
+}
+
+#nav-list {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 20px;
+  max-width: 600px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#spacer-1 {
+  height: 100px;
+}
+
+#title-header {
+  display: block;
+  text-align: center;
+  font-size: 25px;
+}
+
+#form-container {
+  background-color: #FAFAFA;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 5px;
+  color: black;
+  padding-top: 20px;
+}
+
+#description {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  font-size: 20px;
+}
+
+.left-tab {
+  text-align: right;
+  vertical-align: bottom;
+  margin-left: 40px;
+}
+
+.right-tab {
+  margin-right: 40px;
+}
+
+input {
+  font-size: 15px;
+  border-radius: 5px;
+  width: 70%;
+}
+
+select {
+  font-size: 15px;
+  border-radius: 5px;
+  width: 50%;
+}
+
+.radio-ul {
+  padding: 0;
+  margin: 0;
+}
+
+.radio {
+  margin-bottom: 10px;
+}
+
+.userRatings {
+  border-radius: 0px;
+  width: auto;
+}
+
+#preferences {
+  margin: 0;
+  padding: 0;
+}
+
+.checkbox {
+  margin-bottom: 10px;
+}
+
+textarea {
+  width: 70%;
+  height: 50px;
+  border-radius: 5px;
+}
+
+button {
+  position: relative;
+  left: 50%;
+  margin-bottom: 30px;
+  width: auto;
+  font-size: 20px;
+  height: 50px;
+  color: white;
+  background-color: rgb(1, 145, 218);
+  border-radius: 5px;
+  border: 0px solid;
+}
+
+@media screen and (max-width: 900px) {
+  header {
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+  }
+
+  #header-logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #spacer-1 {
+    height: 155px;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  .left-tab {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .right-tab {
+    text-align: center;
+  }
+}

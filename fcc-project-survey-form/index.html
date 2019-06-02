@@ -1,0 +1,111 @@
+<link href="main.css" rel="stylesheet" media="screen" />
+
+<html>
+  <div id="main">
+    <header>
+      <div class="logo">
+        <img id="header-logo" src="http://learningisthesolution.com/wp-content/uploads/2019/05/Name.jpg" alt="Learning is the Solution logo">
+      </div>
+      <nav id="nav-bar">
+        <ul id="nav-list">
+          <li class="nav-item">Science Lessons</li>
+          <li class="nav-item">Curriculum Plans</li>
+          <li class="nav-item">Resources</li>
+          <li class="nav-item">Blog</li>
+          <li class="nav-item">About</li>
+        </ul>
+      </nav>
+    </header>
+    <div id="spacer-1">
+    </div>
+    <div id="title-header">
+      <h1 id="title">Survey Form</h1>
+    </div>
+    <div id="form-container">
+      <p id="description">
+        Let us know what you think of our science lessons
+      </p>
+      <form id="survey-form" method="GET" action="/submit-form">
+        <div class="left-tab">
+          <label for="name" id="name-label">*Name: </label>
+        </div>
+        <div class="right-tab">
+          <input autofocus type="text" name="name" id="name" class="input-field" placeholder="Enter your name" required>
+        </div>
+        <div class="left-tab">
+          <label id="email-label" for="email">*Email: </label>
+        </div>
+        <div class="right-tab">
+          <input type="email" name="email" id="email" class="input-field" placeholder="Enter your e-mail address" required>
+        </div>
+        <div class="left-tab">
+          <label id="number-label" for="age">*Age: </label>
+        </div>
+        <div class="right-tab">
+          <input type="number" name="age" id="number" class="input-field" placeholder="Enter your age" required min="5" max="105">
+        </div>
+        <div class="left-tab">
+          <label for="currentPos">Which option best describes your current role? </label>
+        </div>
+        <div class="right-tab">
+          <select id="dropdown" name="current-position" class="dropdown">
+            <option disabled value>Select an option</option>
+            <option value="Homeschooler">Homeschooler</option>
+            <option value="Parent">Parent</option>
+            <option value="Teacher">Teacher</option>
+            <option value="Student">Student</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="left-tab">
+          <label for="user-ratings">*How likely are you to recommend Learning is the Solution to a friend? </label>
+        </div>
+        <div class="right-tab">
+          <ul style="list-style: none" class="radio-ul">
+            <li class="radio">
+              <label for="user-rating"><input name="user-rating" value="1" type="radio" class="userRatings">Definitely</label>
+            </li>
+            <li class="radio">
+              <label for="user-rating"><input name="user-rating" value="1" type="radio" class="userRatings">Maybe</label>
+            </li>
+            <li class="radio">
+              <label for="user-rating"><input name="user-rating" value="1" type="radio" class="userRatings">Probably not</label>
+            </li>
+          </ul>
+        </div>
+        <div class="left-tab">
+          <label for="favorite-thing">* What do yo like most about LisT? </label>
+        </div>
+        <div class="right-tab">
+          <select id="favorite-thing" name="favorite-thing" class="dropdown">
+            <option disabled value>Select an option</option>
+            <option value="Homeschooler">Easy to use</option>
+            <option value="Parent">Kids love it</option>
+            <option value="Teacher">Comprehensive curriculums</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="left-tab">
+          <label for="improvements">What should be improved in the future? Check all that apply: </label>
+        </div>
+        <div class="right-tab">
+          <ul id="preferences" style="list-style: none;">
+            <li class="checkbox"><label for="prefer"><input name="prefer" value="1" type="checkbox" class="userRatings">Additional lessons</label></li>
+            <li class="checkbox"><label for="prefer"><input name="prefer" value="1" type="checkbox" class="userRatings">Less advertisements</label></li>
+            <li class="checkbox"><label for="prefer"><input name="prefer" value="1" type="checkbox" class="userRatings">Online community</label></li>
+            <li class="checkbox"><label for="prefer"><input name="prefer" value="1" type="checkbox" class="userRatings">More videos</label></li>
+            <li class="checkbox"><label for="prefer"><input name="prefer" value="1" type="checkbox" class="userRatings">More online activities</label></li>
+            <li class="checkbox"><label for="prefer"><input name="prefer" value="1" type="checkbox" class="userRatings">User accounts</label></li>
+            <li class="checkbox"><label for="prefer"><input name="prefer" value="1" type="checkbox" class="userRatings">Different approach</label></li>
+            <li class="checkbox"><label for="prefer"><input name="prefer" value="1" type="checkbox" class="userRatings">Forum</label></li>
+          </ul>
+        </div>
+        <div class="left-tab">
+          <label for="comments">Any comments or suggestions? </label>
+        </div>
+        <div class="right-tab">
+          <textarea id="comments" class="input-field" name="comment" placeholder="Enter your comment here..."></textarea>
+        </div>
+        <button id="submit" type="submit">Submit</button>
+      </form>
+    </div>
