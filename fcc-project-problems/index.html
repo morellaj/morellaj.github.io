@@ -1,0 +1,85 @@
+<link href="main.css" rel="stylesheet" media="screen" />
+
+<div id="intro">
+  <p>
+    These are problem projects that I completed while completing FreeCodeCamp
+  </p>
+</div>
+
+
+<section id="palindrome-section">
+  <h1>Palindrome Checker</h1>
+  <p>
+    Enter a string in the box below and click "Check!" to return whether the string is a palindrome
+  </p>
+  <textarea name="palindrome-text" id="palindrome-text" rows="1"></textarea>
+  <button id="palindrome-button">Check!</button>
+  <p>
+    Is it a palindrome? <span id="palindrome-result"></span>
+  </p>
+</section>
+
+
+<section id="roman-section">
+  <h1>Roman Numeral Converter</h1>
+  <p>
+    Enter a number in the box below and click "Check!" to return whether the string is a palindrome
+  </p>
+  <textarea name="roman-text" id="roman-text" rows="1"></textarea>
+  <button id="roman-button">Check!</button>
+  <p>
+    Roman numeral: <span id="roman-result"></span>
+  </p>
+</section>
+
+
+
+<section id="cipher-section">
+  <h1>Caeser Cipher Decoder</h1>
+  <p>
+    The Caesar cipher is a simple cipher that substitutes each letter in a message with a letter "shifted" a
+    certain number of places down the alphabet. In this case, we are shifting by 13.
+    Enter a code in the box and click "Check!" to convert decode the Caeser cipher.
+    Here are some examples to try:
+  </p>
+  <ul>
+    <li>Vg'f n zr, Znevb!</li>
+    <li>Jne. Jne arire punatrf.</li>
+    <li> Vg'f qnatrebhf gb tb nybar! Gnxr guvf.</li>
+    <li>Gunax lbh Znevb! Ohg bhe cevaprff vf va nabgure pnfgyr!</li>
+  </ul>
+  <textarea name="cipher-text" id="cipher-text" rows="1" cols="70"></textarea>
+  <button id="cipher-button">Check!</button>
+  <p>
+    The message is: <span id="cipher-result"></span>
+  </p>
+</section>
+
+<section id="cash-section">
+  <h1>Cash Register</h1>
+  <p>
+    This cash register function returns the change due during a transaction.
+    Enter the cost of an item in the first text area and the amount paid in
+    the second text area. Click submit to find the change due or an error message
+    if the cash register doesn't have enough change or the amount paid is too low.
+  </p>
+  <div id="cash-text">
+    <div class="cash-entry">
+      <label for="cost-text">Cost of item:</label>
+      <textarea name="cost-text" id="cost-text" rows="1" cols="5"></textarea>
+    </div>
+    <div class="cash-entry">
+      <label for="paid-text">Amount paid:</label>
+      <textarea name="paid-text" id="paid-text" rows="1" cols="5"></textarea>
+    </div>
+  </div>
+  <button id="cash-button">Check!</button>
+  <p>
+    Change due: <span id="cash-result"></span>
+  </p>
+</section>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+</script>
+<script src='main.js'></script>
