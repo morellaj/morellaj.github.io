@@ -1,0 +1,196 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+<style>
+  body,
+  html {
+    overflow: hidden;
+    font-family: Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: yellow;
+  }
+
+  .no-canvas {
+    color: #999999;
+    font-size: 24px;
+    text-align: center;
+    margin-top: 150px;
+  }
+
+  canvas {
+    cursor: crosshair;
+    width: auto;
+    height: auto;
+    z-index: 0;
+  }
+
+  .ui {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #999999;
+    text-align: left;
+    padding: 8px;
+    background-color: black;
+    float: left;
+  }
+
+  #panels {
+    display: block;
+    width: auto;
+    height: auto;
+    position: absolute;
+    z-index: 3;
+    padding: 10% 20% 20% 10%;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  #message {
+    margin-right: 200px;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    font-family: "Montserrat", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  #message .start-button {
+    font-family: inherit;
+    font-size: 1.6em;
+    text-transform: inherit;
+    transition: all .18s linear;
+    cursor: pointer;
+    width: 80%;
+    margin: 20px;
+    margin-bottom: 40px;
+    padding: 0;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+  #sel1 {
+    width: 80%;
+    height: auto;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+
+  #message p {
+    margin-bottom: 20px;
+  }
+
+  #message a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  #message a:hover {
+    text-decoration: underline;
+  }
+
+  .ui h2 {
+    margin-bottom: 20px;
+    color: #eeeeee;
+  }
+
+  @media screen and (max-width: 600px) {
+    #message {
+      padding: 60px 40px;
+    }
+  }
+
+  #settings {
+    background-color: white;
+    z-index: 3;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  #settings-list {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+  }
+
+  .wrapper p {
+    position: absolute;
+    display: none;
+    border: 1px solid black;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .wrapper:hover p {
+    display: block;
+  }
+
+  #drag-p,
+  #reset-game-p {
+    right: 10px;
+  }
+
+  .dropdown p {
+    margin: 0;
+  }
+
+  .setting-button {
+    padding: 3px 10px 3px 10px;
+  }
+
+  input {
+    border-radius: 5px;
+  }
+
+  #color {
+    width: 70px;
+  }
+
+</style>
+
+<div id="settings">
+  <ul id="settings-list">
+    <div class="wrapper">
+      <li><label for="ball-size">Ball Size: <input type="number" id="ball-size" min="1" max="300" value="50"></input></label></li>
+      <p> Diameter of the next ball created. Range 1 - 300. </p>
+    </div>
+    <div class="wrapper">
+      <li><label for="elasticity">Elasticity: <input type="number" id="elasticity" min="0" max="100" value="100"></input></label></li>
+      <p> "Bounciness" of next ball created. Bouncy balls have high elasticity, while bricks have low elasticity. Range 0 - 100 </p>
+    </div>
+    <div class="wrapper">
+      <li><label for="mass">Mass: <input type="number" id="mass" min="1" max="3000" value="50"></input></label></li>
+      <p> Mass of the next ball created. Changes the behavior during collisions with other objects. Range 1 - 3000. </p>
+    </div>
+    <div class="wrapper">
+      <li><label for="color">Color: <input type="text" id="color" value="Red"></input></label></li>
+      <p> Color or next ball created. </p>
+    </div>
+    <div class="wrapper">
+      <li><label for="gravity">Gravity: <input type="number" id="gravity" min="0" max="1000" value="100"></input></label></li>
+      <p> Gravitational force of the environment, causing the balls to accelerate down. Range 0 - 1000. </p>
+    </div>
+    <div class="wrapper">
+      <li><label for="drag">Drag: <input type="number" id="drag" min="0" max="100" value="0"></input></label></li>
+      <p id="drag-p"> Friction of the surrounding environmente that causes moving objects to slow down. Empty space has no drag, air has some drag, and water has high drag. Range 0 - 100. </p>
+    </div>
+    <div class="wrapper">
+      <li><button id="reset-balls" class="btn btn-default setting-button">Reset Balls</button> </li>
+      <p> Remove all the balls. </p>
+    </div>
+    <div class="wrapper">
+      <li><button id="reset-game" class="btn btn-default setting-button">Reset Game</button> </li>
+      <p id="reset-game-p"> Return to the start screen. </p>
+    </div>
+  </ul>
+</div>

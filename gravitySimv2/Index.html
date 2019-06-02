@@ -1,0 +1,348 @@
+<!doctype html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Falling objects simulator" />
+    <meta name="author" content="Alex Morelli" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="width = 450" />
+    <title>Falling objects simulator - gravity, drag, and elasticity</title>
+
+    <link href="main.css" rel="stylesheet" media="screen" />
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+
+    </style>
+  </head>
+
+
+
+  <body>
+    <div id="settings">
+      <ul id="settings-list">
+        <div class="wrapper">
+          <li><label for="ball-size">Ball Size: <input type="number" id="ball-size" min="1" max="300" value="50"></input></label></li>
+          <p> Diameter of the next ball created. Range 1 - 300. </p>
+        </div>
+        <div class="wrapper">
+          <li><label for="elasticity">Elasticity: <input type="number" id="elasticity" min="0" max="100" value="100"></input></label></li>
+          <p> "Bounciness" of next ball created. Bouncy balls have high elasticity, while bricks have low elasticity. Range 0 - 100 </p>
+        </div>
+        <div class="wrapper">
+          <li><label for="mass">Mass: <input type="number" id="mass" min="1" max="3000" value="50"></input></label></li>
+          <p> Mass of the next ball created. Changes the behavior during collisions with other objects. Range 1 - 3000. </p>
+        </div>
+        <div class="wrapper">
+          <li><label for="color">Color: <input type="text" id="color" value="Red"></input></label></li>
+          <p> Color or next ball created. </p>
+        </div>
+        <div class="wrapper">
+          <li><label for="gravity">Gravity: <input type="number" id="gravity" min="0" max="1000" value="100"></input></label></li>
+          <p> Gravitational force of the environment, causing the balls to accelerate down. Range 0 - 1000. </p>
+        </div>
+        <div class="wrapper">
+          <li><label for="drag">Drag: <input type="number" id="drag" min="0" max="100" value="0"></input></label></li>
+          <p id="drag-p"> Friction of the surrounding environmente that causes moving objects to slow down. Empty space has no drag, air has some drag, and water has high drag. Range 0 - 100. </p>
+        </div>
+        <div class="wrapper">
+          <li><button id="reset-balls" class="btn btn-default setting-button">Reset Balls</button> </li>
+          <p> Remove all the balls. </p>
+        </div>
+        <div class="wrapper">
+          <li><button id="reset-game" class="btn btn-default setting-button">Reset Game</button> </li>
+          <p id="reset-game-p"> Return to the start screen. </p>
+        </div>
+      </ul>
+    </div>
+
+
+
+    <div id="panels">
+      <div id="message" class="ui">
+        <h2 id="title">Gravity Game</h2>
+        <p>
+          After starting, click anywhere on the screen to create a ball (limit of 10 balls). Click and drag a ball to move it around. Physics settings can be adjusted at the top of the screen. Pre-configured environments are below.
+        </p>
+        <p class="credits">
+          This was created with heavy inspiration from the code of <a href="https://github.com/hakimel/Core">Core</a> by <a href="http://hakim.se/">Hakim El Hattab</a>
+        </p>
+        <div class="text-center">
+          <button id="startButton" class="start-button btn btn-default">Start game</button>
+          <div class="dropdown">
+            <p> Pre-configured environments: </p>
+            <label for="sel1"></label>
+            <select class="form-control" id="sel1">
+              <option> moon </option>
+              <option> earth </option>
+              <option> jupiter </option>
+              <option> ocean </option>
+              <option> space </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+      // Define constants used
+      const SIZESCALE = 500;
+      const ELASTICITYSCALE = 100;
+      const MASSSCALE = 1;
+      const GRAVITYSCALE = 100;
+      const DRAGSCALE = 1000;
+
+      // Define variables used
+      var balls = [];
+      var mouseOver = false;
+      var startButton;
+      var panels;
+      var playing = false;
+      var bg;
+      var envChange = false;
+      var env;
+      var eraseBalls;
+      var startButtonClickHandler;
+
+      // Object to track the constants set by the user and ranges allowed
+      var settings = {
+        size: {
+          val: .1,
+          min: 1 / SIZESCALE,
+          max: 300 / SIZESCALE
+        },
+        elasticity: {
+          val: 1,
+          min: 0,
+          max: 100 / ELASTICITYSCALE
+        },
+        mass: {
+          val: 50,
+          min: 1,
+          max: 3000
+        },
+        gravity: {
+          val: 1,
+          min: 0,
+          max: 1000 / GRAVITYSCALE
+        },
+        drag: {
+          val: 0,
+          min: 0,
+          max: 100 / DRAGSCALE
+        },
+        color: {
+          val: 'red',
+        }
+      };
+
+      // Object for the pre-configured settings
+      environmentList = {
+        moon: {
+          drag: 0,
+          gravity: .18,
+        },
+        earth: {
+          drag: 0.005,
+          gravity: 1,
+        },
+        jupiter: {
+          drag: 0.03,
+          gravity: 2.4,
+        },
+        ocean: {
+          drag: .1,
+          gravity: 1,
+        },
+        space: {
+          drag: 0,
+          gravity: 0,
+        }
+      }
+
+      // Get the HTML IDs needed
+      startButton = document.getElementById('startButton');
+      panels = document.getElementById('panels');
+      resetBalls = document.getElementById('reset-balls');
+      resetGame = document.getElementById('reset-game');
+
+      //  Add listeners for clicking the various buttons
+
+      startButton.addEventListener('click', startButtonClickHandler, false); // Start button pressed
+      resetBalls.addEventListener('click', resetBallsClickHandler, false); // Reset balls button pressed
+      resetGame.addEventListener('click', resetGameClickHandler, false); // Reset game button pressed
+
+      // Function to get the user settings
+      function getSettings() {
+        settings.size.val = $('#ball-size').val() / SIZESCALE;
+        settings.elasticity.val = $('#elasticity').val() / ELASTICITYSCALE;
+        settings.mass.val = $('#mass').val() / MASSSCALE;
+        settings.gravity.val = $('#gravity').val() / GRAVITYSCALE;
+        settings.drag.val = $('#drag').val() / DRAGSCALE;
+        settings.color.val = $('#color').val();
+        env = $("#sel1").val();
+
+        //Function to make sure user inputs aren't outside the min and max if there is a min and max set
+        for (var set in settings) {
+          if (settings[set].hasOwnProperty('min')) {
+            settings[set].val = (settings[set].val > settings[set].max) ? settings[set].max : (settings[set].val < settings[set].min) ? settings[set].min : settings[set].val;
+          }
+        }
+      }
+
+      // Function to start the game when the start button is pressed
+      function startButtonClickHandler(event) {
+        // Only take affect if the game isn't currently being played
+        if (playing === false) {
+          playing = true;
+
+          // Set the pre-configured environment based on the user input
+          env = $("#sel1").val();
+          envChange = true;
+
+          eraseBalls();
+
+          // Remove the intro screen
+          panels.style.display = 'none';
+        }
+      }
+
+      // Function to reset the balls
+      function resetBallsClickHandler(event) {
+        if (playing === true) {
+          eraseBalls();
+        }
+      }
+
+      // Function to reset the game
+      function resetGameClickHandler(event) {
+        // If the game is being played, stop the game and display the intro screen
+        if (playing === true) {
+          playing = false;
+          panels.style.display = 'inline-block';
+        }
+      }
+
+
+      function getHexColor(colorStr) {
+        var a = document.createElement('div');
+        a.style.color = colorStr;
+        var colors = window.getComputedStyle(document.body.appendChild(a)).color.match(/\d+/g).map(function(a) {
+          return parseInt(a, 10);
+        });
+        document.body.removeChild(a);
+        return (colors.length >= 3) ? '0x' + (((1 << 24) + (colors[0] << 16) + (colors[1] << 8) + colors[2]).toString(16).substr(1)) : false;
+      }
+
+
+      var config = {
+        type: Phaser.AUTO,
+        width: window.innerWidth,
+        height: window.innerHeight,
+        parent: 'divId',
+        physics: {
+          default: 'matter',
+          matter: {
+            enableSleeping: true,
+          }
+        },
+        scene: {
+          preload: preload,
+          create: create,
+          update: update
+        }
+      };
+
+      var game = new Phaser.Game(config);
+
+      function preload() {
+        this.load.spritesheet('ball', 'images/ball.png', {
+          frameWidth: 480,
+          frameHeight: 480
+        });
+
+        this.load.image('earth', 'images/earth.jpg');
+        this.load.image('jupiter', 'images/jupiter.jpg');
+        this.load.image('moon', 'images/moon.jpg');
+        this.load.image('ocean', 'images/ocean.jpg');
+        this.load.image('space', 'images/space.jpg');
+      }
+
+      function create() {
+        this.matter.world.setGravity(0, settings.gravity.val);
+        this.matter.world.setBounds(0, 0, window.innerWidth, window.innerHeight, 320, true, true, true, true);
+        this.matter.add.mouseSpring();
+
+        this.input.on('gameobjectover', function(pointer, gameObject) {
+          mouseOver = true;
+        });
+
+        this.input.on('gameobjectout', function(pointer, gameObject) {
+          mouseOver = false;
+        });
+
+        this.input.on('pointerdown', function(pointer) {
+          if (!mouseOver) {
+            var ball = this.matter.add.sprite(pointer.x, pointer.y, 'ball', 1, {
+              inertia: Infinity
+            }).setInteractive();
+            ball.setCircle();
+            ball.setScale(settings.size.val);
+            ball.setFriction(0, settings.drag.val, 0);
+            ball.setBounce(settings.elasticity.val);
+            ball.setTint(getHexColor(settings.color.val));
+            ball.setMass(settings.mass.val);
+            balls.push(ball);
+          }
+        }, this);
+      }
+
+      function update() {
+        if (envChange) {
+          if (bg) {
+            bg.destroy();
+          }
+          bg = this.add.image(window.innerWidth / 2, window.innerHeight / 2, env);
+          var scale = window.innerWidth / bg.width > window.innerHeight / bg.height ? window.innerWidth / bg.width : window.innerHeight / bg.height;
+          bg.setScale(scale);
+
+
+          settings.drag.val = environmentList[env].drag;
+          $('#drag').attr({
+            'value': environmentList[env].drag * DRAGSCALE
+          });
+
+          settings.gravity.val = environmentList[env].gravity;
+          $('#gravity').attr({
+            'value': environmentList[env].gravity * GRAVITYSCALE
+          });
+
+          this.matter.world.setGravity(0, settings.gravity.val);
+          envChange = false;
+        }
+        getSettings();
+        this.matter.world.setGravity(0, settings.gravity.val);
+
+        eraseBalls = function() {
+          balls.forEach(function(ball) {
+            ball.destroy();
+          });
+          balls = [];
+        }
+      }
+
+    </script>
+
+  </body>
+
+</html>
