@@ -1,0 +1,52 @@
+$buttonHeight: 60px;
+$buttonWidth: 80px;
+$buttonBorderWidth: 1px;
+
+body{
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+}
+
+.button{
+  font-size: 20px;
+  border: $buttonBorderWidth solid black;
+  background-color: white;
+  color: black;
+  height: $buttonHeight;
+  line-height: $buttonHeight;
+  width: $buttonWidth;
+  text-align: center;
+
+  &:hover{
+    border: $buttonBorderWidth solid white;
+    background-color: darkgray;
+    color: white;
+  }
+
+}
+#button-container{
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  height: ($buttonHeight + 2 * $buttonBorderWidth) * 6;
+  width: ($buttonWidth + 2 * $buttonBorderWidth) * 4;
+
+}
+#calculator{
+  border: 3px solid gray;
+  background-color: black;
+  color: white;
+  padding: 5px;
+  width: ($buttonWidth + 2 * $buttonBorderWidth) * 4 ;
+  overflow: hidden;
+}
+#textDisplay, #equationDisplay{
+  text-align: right;
+  font-size: 20px;
+  height: 20px;
+  overflow: hidden;
+}
+#equationDisplay{
+  color: yellow;
+}
