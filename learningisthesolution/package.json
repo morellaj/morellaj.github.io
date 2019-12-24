@@ -1,0 +1,54 @@
+{
+  "name": "learning-is-the-solution",
+  "version": "0.0.1",
+  "description": "Learning is the Solution homeschool education website",
+  "main": "server.js",
+  "homepage": "learningisthesolution.glitch.me",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack && node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "react": "^16.11.0",
+    "react-dom": "^16.10.2",
+    "react-router-dom": "^5.1.2",
+    "pdfjs-dist": "^2.3.200",
+    "pdfjs": "^2.3.2",
+    "react-pdf": "^4.1.0",
+    "@fortawesome/react-fontawesome": "^0.1.6",
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/free-regular-svg-icons": "^5.11.2",
+    "styled-components": "^4.4.0",
+    "https": "^1.0.0",
+    "react-full-screen": "^0.2.4",
+    "react-spring": "^8.0.27",
+    "react-slideshow-image": "^1.3.3"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.5",
+    "webpack": "^4.35.0",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/cli": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/polyfill": "^7.6.0",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^3.2.0",
+    "style-loader": "^1.0.0",
+    "babel-plugin-styled-components": "^1.10.6"
+  },
+  "engines": {
+    "node": "9.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/starter-react-router"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}
